@@ -31,25 +31,27 @@ export const useQuizStore = create((set, get) => ({
   clearError: () => set({ error: null }),
   
   // Navigation actions
-  setCurrentCategory: (category) => set({ 
+  setCurrentCategory: (category) => set({
     currentCategory: category,
     currentSubcategory: null,
     currentCourse: null,
     currentQuizSet: null
   }),
   
-  setCurrentSubcategory: (subcategory) => set({ 
+  setCurrentSubcategory: (subcategory) => set({
     currentSubcategory: subcategory,
     currentCourse: null,
     currentQuizSet: null
   }),
   
-  setCurrentCourse: (course) => set({ 
+  setCurrentCourse: (course) => set({
     currentCourse: course,
     currentQuizSet: null
   }),
   
-  setCurrentQuizSet: (quizSet) => set({ currentQuizSet: quizSet }),
+  setCurrentQuizSet: (quizSet) => set({
+    currentQuizSet: quizSet
+  }),
   
   // Data loading actions
   loadCategories: async () => {
@@ -116,12 +118,7 @@ export const useQuizStore = create((set, get) => ({
   
   answerQuestion: (questionIndex, answer) => {
     const { answers } = get();
-    set({
-      answers: {
-        ...answers,
-        [questionIndex]: answer
-      }
-    });
+    set({ answers: { ...answers, [questionIndex]: answer } });
   },
   
   nextQuestion: () => {

@@ -11,10 +11,7 @@ export const usePointStore = create((set, get) => ({
     set({ loading: true, error: null });
     try {
       const pointsData = await db.getUserPoints(userId);
-      set({ 
-        userPoints: pointsData?.total_points || 0,
-        loading: false 
-      });
+      set({ userPoints: pointsData?.total_points || 0, loading: false });
     } catch (error) {
       set({ error: error.message, loading: false });
     }
@@ -34,10 +31,8 @@ export const usePointStore = create((set, get) => ({
     try {
       const result = await db.updateUserPoints(userId, points, transactionType, description);
       set({ userPoints: result.total_points });
-      
       // Reload transactions to show the new one
       get().loadTransactions(userId);
-      
       return result;
     } catch (error) {
       set({ error: error.message });
@@ -49,10 +44,8 @@ export const usePointStore = create((set, get) => ({
     try {
       const result = await db.updateUserPoints(userId, -points, transactionType, description);
       set({ userPoints: result.total_points });
-      
       // Reload transactions to show the new one
       get().loadTransactions(userId);
-      
       return result;
     } catch (error) {
       set({ error: error.message });

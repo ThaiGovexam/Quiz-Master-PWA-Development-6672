@@ -23,18 +23,18 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }) {
   const [error, setError] = useState('');
   
   const { signUp } = useAuthStore();
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
-
+    
     if (formData.password !== formData.confirmPassword) {
       setError('รหัสผ่านไม่ตรงกัน');
       setLoading(false);
       return;
     }
-
+    
     try {
       await signUp(formData.email, formData.password, {
         first_name: formData.firstName,
@@ -47,11 +47,11 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }) {
       setLoading(false);
     }
   };
-
+  
   const handleChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
-
+  
   return (
     <Card className="w-full max-w-md">
       <CardHeader>
@@ -63,7 +63,10 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }) {
             <div className="space-y-2">
               <Label htmlFor="firstName">ชื่อ</Label>
               <div className="relative">
-                <SafeIcon icon={User} className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                <SafeIcon 
+                  icon={User} 
+                  className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" 
+                />
                 <Input
                   id="firstName"
                   type="text"
@@ -75,7 +78,7 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }) {
                 />
               </div>
             </div>
-
+            
             <div className="space-y-2">
               <Label htmlFor="lastName">นามสกุล</Label>
               <Input
@@ -88,11 +91,14 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }) {
               />
             </div>
           </div>
-
+          
           <div className="space-y-2">
             <Label htmlFor="email">อีเมล</Label>
             <div className="relative">
-              <SafeIcon icon={Mail} className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <SafeIcon 
+                icon={Mail} 
+                className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" 
+              />
               <Input
                 id="email"
                 type="email"
@@ -104,11 +110,14 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }) {
               />
             </div>
           </div>
-
+          
           <div className="space-y-2">
             <Label htmlFor="password">รหัสผ่าน</Label>
             <div className="relative">
-              <SafeIcon icon={Lock} className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <SafeIcon 
+                icon={Lock} 
+                className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" 
+              />
               <Input
                 id="password"
                 type={showPassword ? 'text' : 'password'}
@@ -123,15 +132,21 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }) {
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-3 top-3 text-muted-foreground hover:text-foreground"
               >
-                <SafeIcon icon={showPassword ? EyeOff : Eye} className="h-4 w-4" />
+                <SafeIcon 
+                  icon={showPassword ? EyeOff : Eye} 
+                  className="h-4 w-4" 
+                />
               </button>
             </div>
           </div>
-
+          
           <div className="space-y-2">
             <Label htmlFor="confirmPassword">ยืนยันรหัสผ่าน</Label>
             <div className="relative">
-              <SafeIcon icon={Lock} className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <SafeIcon 
+                icon={Lock} 
+                className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" 
+              />
               <Input
                 id="confirmPassword"
                 type={showConfirmPassword ? 'text' : 'password'}
@@ -146,26 +161,29 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }) {
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                 className="absolute right-3 top-3 text-muted-foreground hover:text-foreground"
               >
-                <SafeIcon icon={showConfirmPassword ? EyeOff : Eye} className="h-4 w-4" />
+                <SafeIcon 
+                  icon={showConfirmPassword ? EyeOff : Eye} 
+                  className="h-4 w-4" 
+                />
               </button>
             </div>
           </div>
-
+          
           {error && (
             <div className="text-sm text-destructive text-center">
               {error}
             </div>
           )}
-
+          
           <Button type="submit" className="w-full" disabled={loading}>
             {loading ? 'กำลังสมัครสมาชิก...' : 'สมัครสมาชิก'}
           </Button>
-
+          
           <div className="text-center text-sm text-muted-foreground">
             มีบัญชีแล้ว?{' '}
-            <button
-              type="button"
-              onClick={onSwitchToLogin}
+            <button 
+              type="button" 
+              onClick={onSwitchToLogin} 
               className="text-primary hover:underline"
             >
               เข้าสู่ระบบ

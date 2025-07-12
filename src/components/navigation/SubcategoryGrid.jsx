@@ -10,7 +10,10 @@ export default function SubcategoryGrid({ subcategories, onSubcategorySelect }) 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {subcategories.map((subcategory) => (
-        <Card key={subcategory.id} className="hover:shadow-lg transition-shadow cursor-pointer">
+        <Card 
+          key={subcategory.id} 
+          className="hover:shadow-lg transition-shadow cursor-pointer"
+        >
           <CardHeader className="pb-3">
             <div className="flex items-center space-x-3">
               <div className="p-2 bg-secondary/50 rounded-lg">
@@ -21,6 +24,7 @@ export default function SubcategoryGrid({ subcategories, onSubcategorySelect }) 
           </CardHeader>
           <CardContent>
             <p className="text-muted-foreground mb-4">{subcategory.description}</p>
+            
             <div className="flex justify-between items-center">
               <div className="flex items-center space-x-4 text-sm text-muted-foreground">
                 <div className="flex items-center space-x-1">
@@ -32,8 +36,9 @@ export default function SubcategoryGrid({ subcategories, onSubcategorySelect }) 
                   <span>{subcategory.quiz_count || 0} ชุดข้อสอบ</span>
                 </div>
               </div>
+              
               <Button 
-                onClick={() => onSubcategorySelect(subcategory)}
+                onClick={() => onSubcategorySelect(subcategory)} 
                 size="sm"
               >
                 เลือก

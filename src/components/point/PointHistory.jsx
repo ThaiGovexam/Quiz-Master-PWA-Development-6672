@@ -16,7 +16,7 @@ export default function PointHistory({ transactions }) {
       default: return History;
     }
   };
-
+  
   const getTransactionColor = (type) => {
     switch (type) {
       case 'earn': return 'text-green-600';
@@ -26,7 +26,7 @@ export default function PointHistory({ transactions }) {
       default: return 'text-gray-600';
     }
   };
-
+  
   const getTransactionText = (type) => {
     switch (type) {
       case 'earn': return 'ได้รับ';
@@ -36,7 +36,7 @@ export default function PointHistory({ transactions }) {
       default: return 'ธุรกรรม';
     }
   };
-
+  
   return (
     <Card>
       <CardHeader>
@@ -58,7 +58,7 @@ export default function PointHistory({ transactions }) {
                   <div className={`p-2 rounded-lg ${getTransactionColor(transaction.transaction_type)} bg-opacity-10`}>
                     <SafeIcon 
                       icon={getTransactionIcon(transaction.transaction_type)} 
-                      className={`h-4 w-4 ${getTransactionColor(transaction.transaction_type)}`}
+                      className={`h-4 w-4 ${getTransactionColor(transaction.transaction_type)}`} 
                     />
                   </div>
                   <div>

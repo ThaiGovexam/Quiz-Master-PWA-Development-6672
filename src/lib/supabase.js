@@ -1,7 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+const supabaseUrl = 'https://nveyzcdghjpqrujukhac.supabase.co';
+const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im52ZXl6Y2RnaGpwcXJ1anVraGFjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIzMzQ4OTEsImV4cCI6MjA2NzkxMDg5MX0.6VgfayZfZS71mMGgWE6wMy8eeYFkU2vMmWUdUPlK8QA';
 
 if (!supabaseUrl || !supabaseAnonKey) {
   throw new Error('Missing Supabase environment variables');
@@ -21,18 +21,7 @@ export const db = {
     if (error) throw error;
     return data;
   },
-
-  async createCategory(category) {
-    const { data, error } = await supabase
-      .from('categories')
-      .insert([category])
-      .select()
-      .single();
-    
-    if (error) throw error;
-    return data;
-  },
-
+  
   // Subcategories
   async getSubcategories(categoryId) {
     const { data, error } = await supabase
@@ -44,18 +33,7 @@ export const db = {
     if (error) throw error;
     return data;
   },
-
-  async createSubcategory(subcategory) {
-    const { data, error } = await supabase
-      .from('subcategories')
-      .insert([subcategory])
-      .select()
-      .single();
-    
-    if (error) throw error;
-    return data;
-  },
-
+  
   // Courses
   async getCourses(subcategoryId) {
     const { data, error } = await supabase
@@ -67,18 +45,7 @@ export const db = {
     if (error) throw error;
     return data;
   },
-
-  async createCourse(course) {
-    const { data, error } = await supabase
-      .from('courses')
-      .insert([course])
-      .select()
-      .single();
-    
-    if (error) throw error;
-    return data;
-  },
-
+  
   // Quiz Sets
   async getQuizSets(courseId) {
     const { data, error } = await supabase
@@ -90,18 +57,7 @@ export const db = {
     if (error) throw error;
     return data;
   },
-
-  async createQuizSet(quizSet) {
-    const { data, error } = await supabase
-      .from('quiz_sets')
-      .insert([quizSet])
-      .select()
-      .single();
-    
-    if (error) throw error;
-    return data;
-  },
-
+  
   // Questions
   async getQuestions(quizSetId) {
     const { data, error } = await supabase
@@ -113,18 +69,7 @@ export const db = {
     if (error) throw error;
     return data;
   },
-
-  async createQuestion(question) {
-    const { data, error } = await supabase
-      .from('questions')
-      .insert([question])
-      .select()
-      .single();
-    
-    if (error) throw error;
-    return data;
-  },
-
+  
   // Quiz Attempts
   async createQuizAttempt(attempt) {
     const { data, error } = await supabase
@@ -136,19 +81,7 @@ export const db = {
     if (error) throw error;
     return data;
   },
-
-  async updateQuizAttempt(id, updates) {
-    const { data, error } = await supabase
-      .from('quiz_attempts')
-      .update(updates)
-      .eq('id', id)
-      .select()
-      .single();
-    
-    if (error) throw error;
-    return data;
-  },
-
+  
   async getUserAttempts(userId) {
     const { data, error } = await supabase
       .from('quiz_attempts')
@@ -171,7 +104,7 @@ export const db = {
     if (error) throw error;
     return data;
   },
-
+  
   // User Points
   async getUserPoints(userId) {
     const { data, error } = await supabase
@@ -180,19 +113,22 @@ export const db = {
       .eq('user_id', userId)
       .single();
     
-    if (error) throw error;
-    return data;
+    if (error && error.code !== 'PGRST116') throw error;
+    return data || { total_points: 0 };
   },
-
+  
   async updateUserPoints(userId, points, transactionType, description) {
-    const { data: currentPoints } = await supabase
+    // Get current points
+    const { data: currentPoints, error: pointsError } = await supabase
       .from('user_points')
       .select('total_points')
       .eq('user_id', userId)
       .single();
-
+    
+    if (pointsError && pointsError.code !== 'PGRST116') throw pointsError;
+    
     const newTotal = (currentPoints?.total_points || 0) + points;
-
+    
     // Update user points
     const { error: updateError } = await supabase
       .from('user_points')
@@ -201,9 +137,9 @@ export const db = {
         total_points: newTotal,
         updated_at: new Date().toISOString()
       });
-
+    
     if (updateError) throw updateError;
-
+    
     // Create transaction record
     const { error: transactionError } = await supabase
       .from('point_transactions')
@@ -213,12 +149,12 @@ export const db = {
         transaction_type: transactionType,
         description: description
       }]);
-
+    
     if (transactionError) throw transactionError;
-
+    
     return { total_points: newTotal };
   },
-
+  
   // Point Transactions
   async getUserTransactions(userId) {
     const { data, error } = await supabase
@@ -226,6 +162,33 @@ export const db = {
       .select('*')
       .eq('user_id', userId)
       .order('created_at', { ascending: false });
+    
+    if (error) throw error;
+    return data;
+  },
+  
+  // User Profile
+  async getUserProfile(userId) {
+    const { data, error } = await supabase
+      .from('user_profiles')
+      .select('*')
+      .eq('user_id', userId)
+      .single();
+    
+    if (error && error.code !== 'PGRST116') throw error;
+    return data;
+  },
+  
+  async updateUserProfile(userId, profile) {
+    const { data, error } = await supabase
+      .from('user_profiles')
+      .upsert({
+        user_id: userId,
+        ...profile,
+        updated_at: new Date().toISOString()
+      })
+      .select()
+      .single();
     
     if (error) throw error;
     return data;

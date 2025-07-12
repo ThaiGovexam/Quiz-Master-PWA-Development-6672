@@ -15,7 +15,7 @@ export default function QuizSetGrid({ quizSets, onQuizSetSelect }) {
       default: return 'text-gray-600 bg-gray-100';
     }
   };
-
+  
   const getDifficultyText = (difficulty) => {
     switch (difficulty) {
       case 'easy': return 'ง่าย';
@@ -24,11 +24,14 @@ export default function QuizSetGrid({ quizSets, onQuizSetSelect }) {
       default: return 'ไม่ระบุ';
     }
   };
-
+  
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {quizSets.map((quizSet) => (
-        <Card key={quizSet.id} className="hover:shadow-lg transition-shadow cursor-pointer">
+        <Card 
+          key={quizSet.id} 
+          className="hover:shadow-lg transition-shadow cursor-pointer"
+        >
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-3">
@@ -63,13 +66,14 @@ export default function QuizSetGrid({ quizSets, onQuizSetSelect }) {
                 <span>{quizSet.points || 0} คะแนน</span>
               </div>
             </div>
-
+            
             <div className="flex justify-between items-center">
               <div className="text-sm text-muted-foreground">
                 ทำแล้ว {quizSet.attempt_count || 0} ครั้ง
               </div>
+              
               <Button 
-                onClick={() => onQuizSetSelect(quizSet)}
+                onClick={() => onQuizSetSelect(quizSet)} 
                 size="sm"
               >
                 เริ่มทำ

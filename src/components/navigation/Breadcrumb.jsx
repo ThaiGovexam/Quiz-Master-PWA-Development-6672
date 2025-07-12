@@ -18,28 +18,29 @@ export default function Breadcrumb({
   const items = [
     { label: 'หน้าแรก', onClick: onHomeClick, icon: Home }
   ];
-
+  
   if (category) {
     items.push({ label: category.name, onClick: onCategoryClick });
   }
-
+  
   if (subcategory) {
     items.push({ label: subcategory.name, onClick: onSubcategoryClick });
   }
-
+  
   if (course) {
     items.push({ label: course.name, onClick: onCourseClick });
   }
-
+  
   if (quizSet) {
     items.push({ label: quizSet.name });
   }
-
+  
   return (
     <nav className="flex items-center space-x-2 text-sm text-muted-foreground mb-6">
       {items.map((item, index) => (
         <React.Fragment key={index}>
           {index > 0 && <SafeIcon icon={ChevronRight} className="h-4 w-4" />}
+          
           {item.onClick ? (
             <Button
               variant="ghost"

@@ -17,12 +17,12 @@ export default function LoginForm({ onSuccess, onSwitchToRegister }) {
   const [error, setError] = useState('');
   
   const { signIn } = useAuthStore();
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
-
+    
     try {
       await signIn(email, password);
       onSuccess?.();
@@ -32,7 +32,7 @@ export default function LoginForm({ onSuccess, onSwitchToRegister }) {
       setLoading(false);
     }
   };
-
+  
   return (
     <Card className="w-full max-w-md">
       <CardHeader>
@@ -43,7 +43,10 @@ export default function LoginForm({ onSuccess, onSwitchToRegister }) {
           <div className="space-y-2">
             <Label htmlFor="email">อีเมล</Label>
             <div className="relative">
-              <SafeIcon icon={Mail} className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <SafeIcon 
+                icon={Mail} 
+                className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" 
+              />
               <Input
                 id="email"
                 type="email"
@@ -55,11 +58,14 @@ export default function LoginForm({ onSuccess, onSwitchToRegister }) {
               />
             </div>
           </div>
-
+          
           <div className="space-y-2">
             <Label htmlFor="password">รหัสผ่าน</Label>
             <div className="relative">
-              <SafeIcon icon={Lock} className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <SafeIcon 
+                icon={Lock} 
+                className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" 
+              />
               <Input
                 id="password"
                 type={showPassword ? 'text' : 'password'}
@@ -74,26 +80,29 @@ export default function LoginForm({ onSuccess, onSwitchToRegister }) {
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-3 top-3 text-muted-foreground hover:text-foreground"
               >
-                <SafeIcon icon={showPassword ? EyeOff : Eye} className="h-4 w-4" />
+                <SafeIcon 
+                  icon={showPassword ? EyeOff : Eye} 
+                  className="h-4 w-4" 
+                />
               </button>
             </div>
           </div>
-
+          
           {error && (
             <div className="text-sm text-destructive text-center">
               {error}
             </div>
           )}
-
+          
           <Button type="submit" className="w-full" disabled={loading}>
             {loading ? 'กำลังเข้าสู่ระบบ...' : 'เข้าสู่ระบบ'}
           </Button>
-
+          
           <div className="text-center text-sm text-muted-foreground">
             ยังไม่มีบัญชี?{' '}
-            <button
-              type="button"
-              onClick={onSwitchToRegister}
+            <button 
+              type="button" 
+              onClick={onSwitchToRegister} 
               className="text-primary hover:underline"
             >
               สมัครสมาชิก

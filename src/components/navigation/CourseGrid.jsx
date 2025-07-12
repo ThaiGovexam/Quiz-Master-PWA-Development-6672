@@ -10,7 +10,10 @@ export default function CourseGrid({ courses, onCourseSelect }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {courses.map((course) => (
-        <Card key={course.id} className="hover:shadow-lg transition-shadow cursor-pointer">
+        <Card 
+          key={course.id} 
+          className="hover:shadow-lg transition-shadow cursor-pointer"
+        >
           <CardHeader className="pb-3">
             <div className="flex items-center space-x-3">
               <div className="p-2 bg-accent/50 rounded-lg">
@@ -21,14 +24,10 @@ export default function CourseGrid({ courses, onCourseSelect }) {
                 <div className="flex items-center space-x-2 mt-1">
                   <div className="flex items-center space-x-1">
                     {[...Array(5)].map((_, i) => (
-                      <SafeIcon
+                      <SafeIcon 
                         key={i}
                         icon={Star}
-                        className={`h-3 w-3 ${
-                          i < (course.rating || 0) 
-                            ? 'text-yellow-400 fill-current' 
-                            : 'text-gray-300'
-                        }`}
+                        className={`h-3 w-3 ${i < (course.rating || 0) ? 'text-yellow-400 fill-current' : 'text-gray-300'}`}
                       />
                     ))}
                   </div>
@@ -41,6 +40,7 @@ export default function CourseGrid({ courses, onCourseSelect }) {
           </CardHeader>
           <CardContent>
             <p className="text-muted-foreground mb-4 line-clamp-2">{course.description}</p>
+            
             <div className="flex justify-between items-center mb-4">
               <div className="flex items-center space-x-4 text-sm text-muted-foreground">
                 <div className="flex items-center space-x-1">
@@ -53,12 +53,14 @@ export default function CourseGrid({ courses, onCourseSelect }) {
                 </div>
               </div>
             </div>
+            
             <div className="flex justify-between items-center">
               <span className="text-lg font-bold text-primary">
                 {course.price > 0 ? `${course.price} คะแนน` : 'ฟรี'}
               </span>
+              
               <Button 
-                onClick={() => onCourseSelect(course)}
+                onClick={() => onCourseSelect(course)} 
                 size="sm"
               >
                 เข้าเรียน
